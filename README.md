@@ -1,1 +1,1 @@
-# the-source-of-true
+# the-source-of-truth
