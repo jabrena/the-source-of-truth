@@ -32,7 +32,7 @@ public class GITCommand {
         }
 
         public GITCommand build(){
-            return new GITCommand(StringUtils.join(this.parts, ", "));
+            return new GITCommand(StringUtils.join(this.parts, " "));
         }
 
     }

@@ -7,7 +7,19 @@ import static org.assertj.core.api.Assertions.*;
 public class GITCommandTest {
 
     @Test
-    public void Given_a_command_When_we_use_the_object_Then_return_right_String() {
+    public void Given_no_command_When_we_build_the_command_Then_return_the_right_String() {
+
+        //When
+        final GITCommand gitCommand = new GITCommand.Builder()
+                .build();
+
+        //Then
+        final String expectedCommand = "";
+        assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
+    }
+
+    @Test
+    public void Given_one_command_When_we_build_the_command_Then_return_the_right_String() {
 
         //When
         final GITCommand gitCommand = new GITCommand.Builder()
@@ -16,7 +28,21 @@ public class GITCommandTest {
 
         //Then
         final String expectedCommand = "Demo";
-        assertThat(expectedCommand).isEqualTo(gitCommand.toString());
+        assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
+    }
+
+    @Test
+    public void Given_two_commands_When_we_build_the_command_Then_return_the_right_String() {
+
+        //When
+        final GITCommand gitCommand = new GITCommand.Builder()
+                .add("Demo")
+                .add("Demo")
+                .build();
+
+        //Then
+        final String expectedCommand = "Demo Demo";
+        assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
     }
 
 }
