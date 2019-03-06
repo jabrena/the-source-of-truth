@@ -9,6 +9,7 @@ public class GITCommandTest {
     @Test
     public void Given_no_command_When_we_build_the_command_Then_return_the_right_String() {
 
+        //Given
         //When
         final GITCommand gitCommand = new GITCommand.Builder()
                 .build();
@@ -21,6 +22,7 @@ public class GITCommandTest {
     @Test
     public void Given_one_command_When_we_build_the_command_Then_return_the_right_String() {
 
+        //Given
         //When
         final GITCommand gitCommand = new GITCommand.Builder()
                 .add("Demo")
@@ -34,6 +36,7 @@ public class GITCommandTest {
     @Test
     public void Given_two_commands_When_we_build_the_command_Then_return_the_right_String() {
 
+        //Given
         //When
         final GITCommand gitCommand = new GITCommand.Builder()
                 .add("Demo")
@@ -41,7 +44,7 @@ public class GITCommandTest {
                 .build();
 
         //Then
-        final String expectedCommand = "Demo Demo";
+        final String expectedCommand = "Demo && Demo";
         assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
     }
 
