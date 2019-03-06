@@ -4,18 +4,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class GITCommandTest {
+public class WindowsShellCommandTest {
 
     @Test
     public void Given_no_command_When_we_build_the_command_Then_return_the_right_String() {
 
         //Given
         //When
-        final GITCommand gitCommand = new GITCommand.Builder()
+        final ShellCommand gitCommand = new ShellCommand.Builder()
                 .build();
 
         //Then
-        final String expectedCommand = "";
+        final String expectedCommand = "cmd /c \"\"";
         assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
     }
 
@@ -24,12 +24,12 @@ public class GITCommandTest {
 
         //Given
         //When
-        final GITCommand gitCommand = new GITCommand.Builder()
+        final ShellCommand gitCommand = new ShellCommand.Builder()
                 .add("Demo")
                 .build();
 
         //Then
-        final String expectedCommand = "Demo";
+        final String expectedCommand = "cmd /c \"Demo\"";
         assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
     }
 
@@ -38,13 +38,13 @@ public class GITCommandTest {
 
         //Given
         //When
-        final GITCommand gitCommand = new GITCommand.Builder()
+        final ShellCommand gitCommand = new ShellCommand.Builder()
                 .add("Demo")
                 .add("Demo")
                 .build();
 
         //Then
-        final String expectedCommand = "Demo && Demo";
+        final String expectedCommand = "cmd /c \"Demo && Demo\"";
         assertThat(gitCommand.toString()).isEqualTo(expectedCommand);
     }
 

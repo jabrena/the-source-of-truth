@@ -5,11 +5,11 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GITCommand {
+public class ShellCommand {
 
     private final String command;
 
-    public GITCommand(final String command) {
+    public ShellCommand(final String command) {
         this.command = command;
     }
 
@@ -22,6 +22,9 @@ public class GITCommand {
 
         private List<String> parts;
 
+        private final String COMMAND_WIN_PREFIX = "cmd /c ";
+        private final String SEPARATOR = "\"";
+
         public Builder(){
             parts = new ArrayList<>();
         }
@@ -31,8 +34,13 @@ public class GITCommand {
             return this;
         }
 
-        public GITCommand build(){
-            return new GITCommand(StringUtils.join(this.parts, " && "));
+        public ShellCommand build(){
+            final StringBuilder sb = new StringBuilder();
+            sb.append(COMMAND_WIN_PREFIX);
+            sb.append(SEPARATOR);
+            sb.append(StringUtils.join(this.parts, " && "));
+            sb.append(SEPARATOR);
+            return new ShellCommand(sb.toString());
         }
 
     }
