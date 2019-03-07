@@ -1,6 +1,7 @@
-package org.jab.microservices.thesourceoftruth.model;
+package org.jab.microservices.thesourceoftruth.model.shell;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,22 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class ShellProcess {
+@Service
+public class ShellProcessImpl implements ShellProccess {
 
-    private final String command;
-
-    public ShellProcess(final ShellCommand command) {
-        this.command = command.toString();
-    }
-
-    public ShellProcessResult run() {
+    public ShellProcessResult execute(final ShellCommand command) {
 
         try {
             List<String> lines = new ArrayList<>();
 
-            LOGGER.info("Command: {}", command);
+            LOGGER.info("Command: {}", command.toString());
 
-            Process process = Runtime.getRuntime().exec(command);
+            Process process = Runtime.getRuntime().exec(command.toString());
 
             // Get input streams
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -38,7 +34,7 @@ public class ShellProcess {
 
             if(stdError.readLine() != null) {
                 LOGGER.error("Bad command: {}", command);
-                throw new IllegalArgumentException(command);
+                throw new IllegalArgumentException(command.toString());
             }
 
             return new ShellProcessResult(lines);
