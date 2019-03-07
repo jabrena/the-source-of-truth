@@ -1,5 +1,6 @@
 package org.jab.microservices.thesourceoftruth.model;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class WindowsJavaShellProcessTest {
@@ -11,14 +12,26 @@ public class WindowsJavaShellProcessTest {
     @Test
     public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result() {
 
-        /*
+         /*
         ShellProcessResult result = new ShellProcess(new ShellCommand.Builder()
                                             .add("cd repos/ev3dev-lang-java")
                                             .add("git shortlog HEAD -sn --no-merges")
                                             .build()).run();
 
         result.getResults().stream().forEach(System.out::println);
-        */
+        */;
+    }
+
+    @Test
+    public void Given_a_bad_command_When_we_execute_Then_we_throw_an_exception() {
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            new ShellProcess(new ShellCommand.Builder()
+                    .add("cd repos/ev3dev-lang-java")
+                    .add("git --bad-argument")
+                    .build()).run();
+        });
+
     }
 
 }

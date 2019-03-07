@@ -36,10 +36,9 @@ public class ShellProcess {
                 lines.add(s);
             }
 
-            // Read command errors
-            LOGGER.info("Standard error: ");
-            while ((s = stdError.readLine()) != null) {
-                System.out.println(s);
+            if(stdError.readLine() != null) {
+                LOGGER.error("Bad command: {}", command);
+                throw new IllegalArgumentException(command);
             }
 
             return new ShellProcessResult(lines);
