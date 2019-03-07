@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth.model;
+package org.jab.microservices.thesourceoftruth.model.shell;
 
 import org.apache.commons.lang.StringUtils;
 

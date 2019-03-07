@@ -1,8 +1,8 @@
-package org.jab.microservices.thesourceoftruth.model;
+package org.jab.microservices.thesourceoftruth.model.shell;
 
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class WindowsShellCommandTest {
 

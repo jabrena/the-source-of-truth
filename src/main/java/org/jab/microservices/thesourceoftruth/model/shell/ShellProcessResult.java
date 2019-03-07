@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth.model;
+package org.jab.microservices.thesourceoftruth.model.shell;
 
 import lombok.Value;
 
