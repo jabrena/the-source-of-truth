@@ -1,36 +1,30 @@
 package org.jab.microservices.thesourceoftruth.model.shell;
 
+import org.jab.microservices.thesourceoftruth.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class WindowsJavaShellProcessTest {
 
-    //git.exe shortlog HEAD -sn --no-merges
-    //git.exe shortlog HEAD -sn --no-merges --since="1 Jan, 2019" --before="1 Feb, 2019""
-    //git.exe log HEAD --since="1 Jan, 2018" --before="1 Feb, 2019" --author="Juan Antonio Brena Moral" --pretty=tformat: --numstat"
-
     @MockBean
     private ShellProccess shellProcess;
 
     @Test
-    public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result() {
+    public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result() throws Exception {
 
         //GIVEN
-        Mockito.when(shellProcess.execute(any())).thenReturn(new ShellProcessResult(
-                new ArrayList<String>(Arrays.asList("Results Line 1", "Results Line 3", "Results Line 3"))));
+        when(shellProcess.execute(any())).thenReturn(
+                new ShellProcessResult(TestUtils.getContentAsList("git/git-shortlog-sn-no-merges.txt")));
 
         //WHEN
         ShellProcessResult result = shellProcess.execute(new ShellCommand.Builder()
@@ -40,14 +34,14 @@ public class WindowsJavaShellProcessTest {
 
         //THEN
         then(result.getResults().size() > 0);
-        then(result.getResults().stream().findFirst().get().equals("Results Line 1"));
+        then(result.getResults().stream().findFirst().get().equals("   651  Juan Antonio Bren<CC><83>a Moral\n"));
     }
 
     @Test
     public void Given_a_bad_command_When_we_execute_Then_we_throw_an_exception() {
 
         //GIVEN
-        Mockito.when(shellProcess.execute(any())).thenThrow(RuntimeException.class);
+        when(shellProcess.execute(any())).thenThrow(RuntimeException.class);
 
         //WHEN
         //THEN
