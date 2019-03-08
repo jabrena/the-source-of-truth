@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth.model.shell;
+package org.jab.thesourceoftruth.service.shell;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth;
+package org.jab.thesourceoftruth;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

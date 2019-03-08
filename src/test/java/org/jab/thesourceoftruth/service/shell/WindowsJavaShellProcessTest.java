@@ -1,6 +1,6 @@
-package org.jab.microservices.thesourceoftruth.model.shell;
+package org.jab.thesourceoftruth.service.shell;
 
-import org.jab.microservices.thesourceoftruth.TestUtils;
+import org.jab.thesourceoftruth.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
