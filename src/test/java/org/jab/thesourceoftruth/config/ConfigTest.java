@@ -21,7 +21,7 @@ public class ConfigTest {
     public void Given_a_config_When_load_the_bean_Then_data_is_loaded() {
 
         then(config.getRepositories().size() == 1);
-        then(config.getRepositories().get(0).getId().equals("ev3dev-lang-java"));
+        then(config.getRepositories().get(0).getId().equals("MY-TEST-REPO"));
     }
 
 }
