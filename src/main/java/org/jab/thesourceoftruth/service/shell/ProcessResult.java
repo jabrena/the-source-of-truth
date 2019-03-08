@@ -5,7 +5,7 @@ import lombok.Value;
 import java.util.List;
 
 @Value
-public class ShellProcessResult {
+public class ProcessResult {
 
     private List<String> results;
 }

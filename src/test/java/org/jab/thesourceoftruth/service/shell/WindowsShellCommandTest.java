@@ -11,7 +11,7 @@ public class WindowsShellCommandTest {
 
         //Given
         //When
-        final ShellCommand gitCommand = new ShellCommand.Builder()
+        final Command gitCommand = new Command.Builder()
                 .build();
 
         //Then
@@ -24,7 +24,7 @@ public class WindowsShellCommandTest {
 
         //Given
         //When
-        final ShellCommand gitCommand = new ShellCommand.Builder()
+        final Command gitCommand = new Command.Builder()
                 .add("Demo")
                 .build();
 
@@ -38,7 +38,7 @@ public class WindowsShellCommandTest {
 
         //Given
         //When
-        final ShellCommand gitCommand = new ShellCommand.Builder()
+        final Command gitCommand = new Command.Builder()
                 .add("Demo")
                 .add("Demo")
                 .build();
