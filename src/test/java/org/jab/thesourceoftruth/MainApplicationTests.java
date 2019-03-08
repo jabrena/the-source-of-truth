@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth;
+package org.jab.thesourceoftruth;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class TheSourceOfTruthApplicationTests {
+public class MainApplicationTests {
 
 	@Test
 	public void contextLoads() {

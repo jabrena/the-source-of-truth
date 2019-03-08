@@ -1,15 +1,15 @@
-package org.jab.microservices.thesourceoftruth.model.shell;
+package org.jab.thesourceoftruth.service.shell;
 
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShellCommand {
+public class Command {
 
     private final String command;
 
-    public ShellCommand(final String command) {
+    public Command(final String command) {
         this.command = command;
     }
 
@@ -34,13 +34,13 @@ public class ShellCommand {
             return this;
         }
 
-        public ShellCommand build(){
+        public Command build(){
             final StringBuilder sb = new StringBuilder();
             sb.append(COMMAND_WIN_PREFIX);
             sb.append(SEPARATOR);
             sb.append(StringUtils.join(this.parts, " && "));
             sb.append(SEPARATOR);
-            return new ShellCommand(sb.toString());
+            return new Command(sb.toString());
         }
 
     }

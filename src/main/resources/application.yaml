@@ -1,0 +1,12 @@
+logging.level.root: INFO
+
+artifacts:
+  repositories:
+    -
+      id: "ev3dev-lang-java"
+      path: "repos/ev3dev-lang-java"
+      address: "https://github.com/ev3dev-lang-java/ev3dev-lang-java.git"
+      authentication: false
+      user:
+      password:
+      build_tool: MAVEN

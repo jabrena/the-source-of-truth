@@ -1,4 +1,4 @@
-package org.jab.microservices.thesourceoftruth.model.shell;
+package org.jab.thesourceoftruth.service.shell;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,9 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class ShellProcessImpl implements ShellProccess {
+public class ProcessImpl implements Proccess {
 
-    public ShellProcessResult execute(final ShellCommand command) {
+    public ProcessResult execute(final Command command) {
 
         try {
             List<String> lines = new ArrayList<>();
@@ -37,7 +37,7 @@ public class ShellProcessImpl implements ShellProccess {
                 throw new IllegalArgumentException(command.toString());
             }
 
-            return new ShellProcessResult(lines);
+            return new ProcessResult(lines);
 
         } catch (Exception e) {
             LOGGER.error("Error:", e);

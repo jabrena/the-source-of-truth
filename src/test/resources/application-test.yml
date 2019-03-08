@@ -1,0 +1,15 @@
+logging.level.root: INFO
+logging.level.org.springframework.web.reactive.function.client.ExchangeFunctions: TRACE
+spring.http.log-request-details: true
+
+artifacts:
+  repositories:
+    -
+      id: "MY-TEST-REPO"
+      path: "repos/MY-REPO"
+      address: "https://github.com/jabrena/my-fictional-repo"
+      authentication: false
+      user:
+      password:
+      build_tool: MAVEN
+
