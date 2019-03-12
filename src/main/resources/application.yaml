@@ -1,6 +1,7 @@
 logging.level.root: INFO
 
-artifacts:
+config:
+  git: "git"
   repositories:
     -
       id: "ev3dev-lang-java"
