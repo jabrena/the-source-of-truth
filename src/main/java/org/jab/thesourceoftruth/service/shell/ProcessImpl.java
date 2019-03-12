@@ -22,7 +22,7 @@ public class ProcessImpl implements Proccess {
             Process process = Runtime.getRuntime().exec(command.toString());
 
             // Get input streams
-            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             // Read command standard output
