@@ -16,6 +16,7 @@ public class ProcessImpl implements Proccess {
 
         try {
             List<String> lines = new ArrayList<>();
+            List<String> errLines = new ArrayList<>();
 
             LOGGER.info("Command: {}", command.toString());
 
@@ -32,8 +33,12 @@ public class ProcessImpl implements Proccess {
                 lines.add(s);
             }
 
-            if(stdError.readLine() != null) {
+            while ((s = stdError.readLine()) != null) {
+                errLines.add(s);
+            }
+            if(errLines.size() > 0) {
                 LOGGER.error("Bad command: {}", command);
+                errLines.stream().forEach(line -> LOGGER.error("{}", line));
                 throw new IllegalArgumentException(command.toString());
             }
 

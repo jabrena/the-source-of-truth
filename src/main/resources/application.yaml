@@ -11,3 +11,4 @@ config:
       user:
       password:
       build_tool: MAVEN
+      main_branch: master

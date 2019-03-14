@@ -2,6 +2,7 @@ package org.jab.thesourceoftruth.service.git;
 
 import org.jab.thesourceoftruth.service.shell.Proccess;
 import org.jab.thesourceoftruth.service.shell.ProcessResult;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class ProcessorTest {
     @Autowired
     private Processor processor;
 
+    @Disabled
     @Test
     public void Given_a_configuration_When_call_processor_Then_process_it() throws Exception {
 
