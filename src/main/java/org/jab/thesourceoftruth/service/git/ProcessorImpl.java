@@ -5,15 +5,14 @@ import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
 import org.jab.thesourceoftruth.config.GlobalConfiguration;
 import org.jab.thesourceoftruth.config.Repository;
+import org.jab.thesourceoftruth.model.GitCommitContributions;
 import org.jab.thesourceoftruth.service.shell.Command;
 import org.jab.thesourceoftruth.service.shell.Proccess;
 import org.jab.thesourceoftruth.service.shell.ProcessResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +39,7 @@ public class ProcessorImpl implements Processor {
         repos.stream().forEach(repository -> {
 
             //1. Upgrade git branch
-            //upgradeBranch(repository);
+            upgradeBranch(repository);
 
             //2. Get commit ranges (First & Last)
             Tuple2<LocalDate, LocalDate> commitRanges = getFirstAndLastDate(repository);
@@ -61,14 +60,26 @@ public class ProcessorImpl implements Processor {
                 int nextMonth = month+1;
 
                 String gitDateFilter = "--since=\"1 " + GitMonths.from(currentMonth) +  ", " + year + "\" --before=\"1 " + GitMonths.from(nextMonth) + ", " + year + "\"";
-                System.out.println(gitDateFilter);
+                LOGGER.info("{}", gitDateFilter);
 
                 ProcessResult result4 = shellProcess.execute(new Command.Builder()
                         .add("cd " + repository.getPath())
                         .add(configuration.getGit() + " shortlog HEAD -sn --no-merges " + gitDateFilter)
                         .build());
 
-                result4.getResults().stream().forEach(System.out::println);
+
+                GitCommitContributions contributions = new GitCommitContributions(result4);
+                contributions.adapt().stream().forEach(contribution -> {
+
+                    LOGGER.info("{}",contribution);
+
+                    ProcessResult result5 = shellProcess.execute(new Command.Builder()
+                            .add("cd " + repository.getPath())
+                            .add(configuration.getGit() + " log HEAD " + gitDateFilter + " --author=\"" + contribution.getContributor() + "\" --pretty=tformat: --numstat ")
+                            .build());
+
+                    result5.getResults().stream().forEach(System.out::println);
+                });
             }
 
         }
