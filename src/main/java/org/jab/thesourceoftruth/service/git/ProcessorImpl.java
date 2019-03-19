@@ -5,6 +5,7 @@ import io.vavr.Tuple2;
 import lombok.extern.slf4j.Slf4j;
 import org.jab.thesourceoftruth.config.GlobalConfiguration;
 import org.jab.thesourceoftruth.config.Repository;
+import org.jab.thesourceoftruth.model.GitCommitContributionDetail;
 import org.jab.thesourceoftruth.model.GitCommitContributions;
 import org.jab.thesourceoftruth.service.shell.Command;
 import org.jab.thesourceoftruth.service.shell.Proccess;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,37 +54,54 @@ public class ProcessorImpl implements Processor {
 
     private void getRepoContribution(Repository repository, Tuple2<LocalDate, LocalDate> commitRanges) {
 
+        List<GitDevEffort> list = new ArrayList<>();
+
         for(int year = commitRanges._1.getYear(); year < commitRanges._2.getYear(); year++) {
 
             for (int month = 1; month < 12; month++) {
 
-                int currentMonth = month;
+                final int currentYear = year;
+                final int currentMonth = month;
                 int nextMonth = month+1;
 
                 String gitDateFilter = "--since=\"1 " + GitMonths.from(currentMonth) +  ", " + year + "\" --before=\"1 " + GitMonths.from(nextMonth) + ", " + year + "\"";
-                LOGGER.info("{}", gitDateFilter);
+                //LOGGER.info("{}", gitDateFilter);
 
                 ProcessResult result4 = shellProcess.execute(new Command.Builder()
                         .add("cd " + repository.getPath())
                         .add(configuration.getGit() + " shortlog HEAD -sn --no-merges " + gitDateFilter)
                         .build());
 
-
                 GitCommitContributions contributions = new GitCommitContributions(result4);
                 contributions.adapt().stream().forEach(contribution -> {
 
-                    LOGGER.info("{}",contribution);
+                    //LOGGER.info("{}",contribution);
 
                     ProcessResult result5 = shellProcess.execute(new Command.Builder()
                             .add("cd " + repository.getPath())
                             .add(configuration.getGit() + " log HEAD " + gitDateFilter + " --author=\"" + contribution.getContributor() + "\" --pretty=tformat: --numstat ")
                             .build());
 
-                    result5.getResults().stream().forEach(System.out::println);
+                    GitCommitContributionDetail contributionDetail = new GitCommitContributionDetail(result5);
+                    contributionDetail.adapt().stream().forEach(detail -> {
+                        list.add(new GitDevEffort(
+                                repository.getId(),
+                                currentYear,
+                                currentMonth,
+                                contribution.getContributor(),
+                                contribution.getCommit(),
+                                detail.getAdded(),
+                                detail.getRemoved(),
+                                detail.getFile()
+                                ));
+                    });
                 });
             }
 
         }
+
+        //Starting point for the analysis
+        list.stream().map(row -> row.toString()).forEach(LOGGER::info);
 
         LOGGER.info("Get repo contribution metadata");
         ProcessResult result4 = shellProcess.execute(new Command.Builder()
@@ -90,7 +109,7 @@ public class ProcessorImpl implements Processor {
                 .add(configuration.getGit() + " shortlog HEAD -sn --no-merges")
                 .build());
 
-        result4.getResults().stream().forEach(System.out::println);
+        result4.getResults().stream().forEach(LOGGER::info);
     }
 
     private Tuple2<LocalDate, LocalDate> getFirstAndLastDate(Repository repository) {
@@ -115,7 +134,7 @@ public class ProcessorImpl implements Processor {
             return LocalDate.parse(commitDate.substring(0,10), formatter);
         }).findFirst().get();
 
-        LOGGER.info("{} {}", lastCommit, firstCommit);
+        //LOGGER.info("{} {}", lastCommit, firstCommit);
 
         return Tuple.of(firstCommit, lastCommit);
     }
