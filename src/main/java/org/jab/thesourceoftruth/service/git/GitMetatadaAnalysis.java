@@ -1,5 +1,6 @@
 package org.jab.thesourceoftruth.service.git;
 
+import com.jakewharton.fliptables.FlipTableConverters;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
@@ -95,7 +96,25 @@ public class GitMetatadaAnalysis {
         }
 
         //Starting point for the analysis
-        list.stream().map(row -> row.toString()).forEach(LOGGER::info);
+        //list.stream().map(row -> row.toString()).forEach(LOGGER::info);
+
+        String[] headers = { "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
+        Object[][] data2 = new Object[list.size()][];
+
+        int counter = 0;
+        for(GitDevEffort item : list) {
+            data2[counter] = new Object[7];
+            data2[counter][0] = item.getIdrepo();
+            data2[counter][1] = item.getYear();
+            data2[counter][2] = item.getMonth();
+            data2[counter][3] = item.getContributor();
+            data2[counter][4] = item.getFile();
+            data2[counter][5] = item.getAdded();
+            data2[counter][6] = item.getRemoved();
+
+            counter++;
+        }
+        System.out.println(FlipTableConverters.fromObjects(headers, data2));
 
         LOGGER.info("Get repo contribution metadata");
         ProcessResult result4 = shellProcess.execute(new Command.Builder()
