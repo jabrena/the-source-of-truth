@@ -1,7 +1,7 @@
 logging.level.root: INFO
 
 config:
-  git: "C:\\Users\\PT02EU\\AppData\\Local\\Programs\\Git\\bin\\git.exe"
+  git: "git"
   repositories:
     -
       id: "ev3dev-lang-java"

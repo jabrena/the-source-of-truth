@@ -147,13 +147,13 @@ public class ProcessorImpl implements Processor {
                 .add(configuration.getGit() + " status")
                 .build());
 
-        result.getResults().stream().forEach(System.out::println);
+        //result.getResults().stream().forEach(System.out::println);
 
         //TODO Create a new method for commands which return errors.
         try {
             ProcessResult result2 = shellProcess.execute(new Command.Builder()
                     .add("cd " + repository.getPath())
-                    .add(configuration.getGit() + " checkout master")
+                    .add(configuration.getGit() + " checkout " + repository.getMain_branch())
                     .build());
 
         } catch (RuntimeException e) {
