@@ -16,10 +16,5 @@ public class MainApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		LOGGER.info("EXECUTING : command line runner");
-
-		for (int i = 0; i < args.length; ++i) {
-			LOGGER.info("args[{}]: {}", i, args[i]);
-		}
 	}
-
 }

@@ -13,4 +13,9 @@ public class MainApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Test
+	public void applicationStarts() {
+		MainApplication.main(new String[] {});
+	}
+
 }
