@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class Config {
 
     @Bean
-    @ConfigurationProperties(prefix = "artifacts")
+    @ConfigurationProperties(prefix = "config")
     GlobalConfiguration globalConfig(){
         return new GlobalConfiguration();
     }

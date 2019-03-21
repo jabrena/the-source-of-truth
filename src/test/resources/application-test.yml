@@ -2,7 +2,8 @@ logging.level.root: INFO
 logging.level.org.springframework.web.reactive.function.client.ExchangeFunctions: TRACE
 spring.http.log-request-details: true
 
-artifacts:
+config:
+  git: "git"
   repositories:
     -
       id: "MY-TEST-REPO"
@@ -12,4 +13,4 @@ artifacts:
       user:
       password:
       build_tool: MAVEN
-
+      main_branch: master

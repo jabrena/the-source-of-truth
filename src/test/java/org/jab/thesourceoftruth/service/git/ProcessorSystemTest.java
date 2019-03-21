@@ -1,36 +1,28 @@
 package org.jab.thesourceoftruth.service.git;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class ProcessorTest {
-
-    @MockBean
-    private GitMetatadaAnalysis gitMetatadaAnalysis;
+public class ProcessorSystemTest {
 
     @Autowired
     private Processor processor;
 
+    @Disabled
     @Test
     public void Given_a_configuration_When_call_processor_Then_process_it() throws Exception {
 
         //GIVEN
-        doNothing().when(gitMetatadaAnalysis).run(any());
-
         //WHEN
+        //THEN
         processor.run();
 
-        //THEN
-        verify(gitMetatadaAnalysis, times(1)).run(any());
     }
 
 }
