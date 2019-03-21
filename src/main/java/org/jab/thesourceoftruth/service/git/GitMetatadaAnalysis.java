@@ -1,10 +1,11 @@
 package org.jab.thesourceoftruth.service.git;
 
-import com.jakewharton.fliptables.FlipTableConverters;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.jab.thesourceoftruth.config.GlobalConfiguration;
 import org.jab.thesourceoftruth.config.Repository;
 import org.jab.thesourceoftruth.model.GitCommitContributionDetail;
@@ -15,6 +16,8 @@ import org.jab.thesourceoftruth.service.shell.ProcessResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -95,26 +98,34 @@ public class GitMetatadaAnalysis {
 
         }
 
+        //TODO Improve syntax
         //Starting point for the analysis
-        //list.stream().map(row -> row.toString()).forEach(LOGGER::info);
-
         String[] headers = { "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
-        Object[][] data2 = new Object[list.size()][];
 
-        int counter = 0;
-        for(GitDevEffort item : list) {
-            data2[counter] = new Object[7];
-            data2[counter][0] = item.getIdrepo();
-            data2[counter][1] = item.getYear();
-            data2[counter][2] = item.getMonth();
-            data2[counter][3] = item.getContributor();
-            data2[counter][4] = item.getFile();
-            data2[counter][5] = item.getAdded();
-            data2[counter][6] = item.getRemoved();
+        try {
 
-            counter++;
+            FileWriter out = new FileWriter(repository.getId() + ".csv");
+            try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
+                    .withHeader(headers).withDelimiter(','))) {
+                list.forEach(x -> {
+                    try {
+                        printer.printRecord(
+                                x.getIdrepo(),
+                                x.getYear(),
+                                x.getMonth(),
+                                x.getContributor(),
+                                x.getFile(),
+                                x.getAdded(),
+                                x.getRemoved());
+                    } catch (IOException ex) {
+
+                    }
+                });
+            }
+
+        } catch (IOException e) {
+
         }
-        System.out.println(FlipTableConverters.fromObjects(headers, data2));
 
         LOGGER.info("Get repo contribution metadata");
         ProcessResult result4 = shellProcess.execute(new Command.Builder()
