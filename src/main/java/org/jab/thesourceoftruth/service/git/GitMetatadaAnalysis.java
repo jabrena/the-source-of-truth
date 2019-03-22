@@ -8,6 +8,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jab.thesourceoftruth.config.GlobalConfiguration;
 import org.jab.thesourceoftruth.config.Repository;
+import org.jab.thesourceoftruth.model.Contribution;
+import org.jab.thesourceoftruth.model.ContributionDetail;
 import org.jab.thesourceoftruth.model.GitCommitContributionDetail;
 import org.jab.thesourceoftruth.model.GitCommitContributions;
 import org.jab.thesourceoftruth.service.shell.Command;
@@ -59,6 +61,8 @@ public class GitMetatadaAnalysis {
             LOGGER.info("Analyzing git metadata in year: {}", year);
 
             for (month = 1; month < 12; month++) {
+
+                int nextMonth = month+1;
 
                 String gitDateFilter = "";
                 if(month == 12) {
