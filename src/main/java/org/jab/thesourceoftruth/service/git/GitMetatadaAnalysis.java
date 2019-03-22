@@ -52,17 +52,20 @@ public class GitMetatadaAnalysis {
 
         List<GitDevEffort> list = new ArrayList<>();
 
-        for(int year = commitRanges._1.getYear(); year < commitRanges._2.getYear(); year++) {
+        int year;
+        int month;
+        for(year = commitRanges._1.getYear(); year < commitRanges._2.getYear(); year++) {
 
             LOGGER.info("Analyzing git metadata in year: {}", year);
 
-            for (int month = 1; month < 12; month++) {
+            for (month = 1; month < 12; month++) {
 
-                final int currentYear = year;
-                final int currentMonth = month;
-                int nextMonth = month+1;
-
-                String gitDateFilter = "--since=\"1 " + GitMonths.from(currentMonth) +  ", " + year + "\" --before=\"1 " + GitMonths.from(nextMonth) + ", " + year + "\"";
+                String gitDateFilter = "";
+                if(month == 12) {
+                    gitDateFilter = "--since=\"1 " + "Dec" +  ", " + year + "\" --before=\"1 " + "Jan" + ", " + (year+1) + "\"";
+                }else {
+                    gitDateFilter = "--since=\"1 " + GitMonths.from(month) +  ", " + year + "\" --before=\"1 " + GitMonths.from(nextMonth) + ", " + year + "\"";
+                }
                 //LOGGER.info("{}", gitDateFilter);
 
                 ProcessResult result4 = shellProcess.execute(new Command.Builder()
@@ -71,29 +74,28 @@ public class GitMetatadaAnalysis {
                         .build());
 
                 GitCommitContributions contributions = new GitCommitContributions(result4);
-                contributions.adapt().stream().forEach(contribution -> {
-
-                    //LOGGER.info("{}",contribution);
-
+                
+                for (Contribution contribution: contributions.adapt()) {
                     ProcessResult result5 = shellProcess.execute(new Command.Builder()
                             .add("cd " + repository.getPath())
                             .add(configuration.getGit() + " log HEAD " + gitDateFilter + " --author=\"" + contribution.getContributor() + "\" --pretty=tformat: --numstat ")
                             .build());
 
                     GitCommitContributionDetail contributionDetail = new GitCommitContributionDetail(result5);
-                    contributionDetail.adapt().stream().forEach(detail -> {
+
+                    for (ContributionDetail detail: contributionDetail.adapt()) {
                         list.add(new GitDevEffort(
                                 repository.getId(),
-                                currentYear,
-                                currentMonth,
+                                year,
+                                month,
                                 contribution.getContributor(),
                                 contribution.getCommit(),
                                 detail.getAdded(),
                                 detail.getRemoved(),
                                 detail.getFile()
                         ));
-                    });
-                });
+                    }
+                }
             }
 
         }
