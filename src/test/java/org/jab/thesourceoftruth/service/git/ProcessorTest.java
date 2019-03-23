@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,7 +26,7 @@ public class ProcessorTest {
     public void Given_a_configuration_When_call_processor_Then_process_it() throws Exception {
 
         //GIVEN
-        doNothing().when(gitMetatadaAnalysis).run(any());
+        when(gitMetatadaAnalysis.run(any())).thenReturn(new ArrayList<GitDevEffort>());
 
         //WHEN
         processor.run();
