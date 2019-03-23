@@ -4,8 +4,6 @@ import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVPrinter;
 import org.jab.thesourceoftruth.config.GlobalConfiguration;
 import org.jab.thesourceoftruth.config.Repository;
 import org.jab.thesourceoftruth.model.Contribution;
@@ -18,8 +16,6 @@ import org.jab.thesourceoftruth.service.shell.ProcessResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -35,7 +31,7 @@ public class GitMetatadaAnalysis {
     @Autowired
     private Proccess shellProcess;
 
-    public void run(final Repository repository) {
+    public List<GitDevEffort> run(final Repository repository) {
 
         //1. Upgrade git branch
         upgradeBranch(repository);
@@ -44,11 +40,11 @@ public class GitMetatadaAnalysis {
         Tuple2<LocalDate, LocalDate> commitRanges = getFirstAndLastDate(repository);
 
         //3. Get contributions
-        getRepoContribution(repository, commitRanges);
+        return getRepoContribution(repository, commitRanges);
     }
 
 
-    private void getRepoContribution(Repository repository, Tuple2<LocalDate, LocalDate> commitRanges) {
+    private List<GitDevEffort> getRepoContribution(Repository repository, Tuple2<LocalDate, LocalDate> commitRanges) {
 
         LOGGER.info("Get Git Dev Effort metadata");
 
@@ -104,35 +100,6 @@ public class GitMetatadaAnalysis {
 
         }
 
-        //TODO Improve syntax
-        //Starting point for the analysis
-        String[] headers = { "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
-
-        try {
-
-            FileWriter out = new FileWriter(repository.getId() + ".csv");
-            try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
-                    .withHeader(headers).withDelimiter(','))) {
-                list.forEach(x -> {
-                    try {
-                        printer.printRecord(
-                                x.getIdrepo(),
-                                x.getYear(),
-                                x.getMonth(),
-                                x.getContributor(),
-                                x.getFile(),
-                                x.getAdded(),
-                                x.getRemoved());
-                    } catch (IOException ex) {
-
-                    }
-                });
-            }
-
-        } catch (IOException e) {
-
-        }
-
         LOGGER.info("Get repo contribution metadata");
         ProcessResult result4 = shellProcess.execute(new Command.Builder()
                 .add("cd " + repository.getPath())
@@ -140,6 +107,8 @@ public class GitMetatadaAnalysis {
                 .build());
 
         result4.getResults().stream().forEach(LOGGER::info);
+
+        return list;
     }
 
     private Tuple2<LocalDate, LocalDate> getFirstAndLastDate(Repository repository) {
