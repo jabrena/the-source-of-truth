@@ -3,6 +3,7 @@ package org.jab.thesourceoftruth.service.git;
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
 import io.vavr.control.Try;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -50,6 +51,11 @@ public class GitMetatadaAnalysis {
     private void checkout(Repository repository) {
 
         LOGGER.info("Checkout repo");
+
+        File directory = new File("repos");
+        if (! directory.exists()){
+            directory.mkdir();
+        }
 
         if (Files.notExists(Paths.get(repository.getPath()))) {
             shellProcess.execute(new Command2.Builder()
