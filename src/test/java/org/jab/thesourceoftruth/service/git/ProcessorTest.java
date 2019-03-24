@@ -33,7 +33,7 @@ public class ProcessorTest {
         processor.run();
 
         //THEN
-        verify(gitMetatadaAnalysis, times(1)).run(any());
+        verify(gitMetatadaAnalysis, times(3)).run(any());
     }
 
 }
