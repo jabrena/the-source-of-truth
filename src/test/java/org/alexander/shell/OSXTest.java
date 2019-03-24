@@ -3,6 +3,7 @@ package org.alexander.shell;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 
@@ -136,6 +137,7 @@ public class OSXTest {
         then(stderr.length()).isEqualTo(0);
     }
 
+    @Disabled
     @Test
     public void BasicTest6() throws Exception {
 
