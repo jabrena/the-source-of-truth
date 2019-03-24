@@ -11,6 +11,6 @@ notifications:
     recipients:
     - bren@juanantonio.info
 script:
-- ./mvnw -Dtest=OSXTest test
+- ./mvnw test
 after_success:
 - bash <(curl -s https://codecov.io/bash)

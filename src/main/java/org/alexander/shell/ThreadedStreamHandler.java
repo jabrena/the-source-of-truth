@@ -86,7 +86,7 @@ class ThreadedStreamHandler extends Thread {
 
 		BufferedReader bufferedReader = null;
 		try {
-			bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+			bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 			String line = null;
 			while ((line = bufferedReader.readLine()) != null) {
 				outputBuffer.append(line + "\n");

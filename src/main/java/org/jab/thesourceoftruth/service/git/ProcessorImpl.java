@@ -1,17 +1,16 @@
 package org.jab.thesourceoftruth.service.git;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jab.thesourceoftruth.config.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -36,7 +35,7 @@ public class ProcessorImpl implements Processor {
             //TODO Move to plugin
             LOGGER.info("1. Git Metadata Analysis");
 
-            gitMetatadaAnalysis.run(repository);
+            list.addAll(gitMetatadaAnalysis.run(repository));
         });
 
         //Starting point for the analysis
