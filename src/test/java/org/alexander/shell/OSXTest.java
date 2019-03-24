@@ -36,7 +36,7 @@ public class OSXTest {
         LOGGER.info("STDERR: {}", stderr);
 
         //THEN
-        then(result != -99);
+        then(result).isEqualTo(0);
 
     }
 
@@ -60,7 +60,31 @@ public class OSXTest {
         LOGGER.info("STDERR: {}", stderr);
 
         //THEN
-        then(result != -99);
+        then(result).isEqualTo(0);
+
+    }
+
+    @Test
+    public void BasicTest3() throws Exception {
+
+        //GIVEN
+        List<String> commands = new ArrayList<>();
+        commands.add("/bin/sh");
+        commands.add("-c");
+        commands.add("git --BAD-OPTION");
+
+        SystemCommandExecutor commandExecutor = new SystemCommandExecutor(commands);
+        int result = commandExecutor.executeCommand();
+
+        StringBuilder stdout = commandExecutor.getStandardOutputFromCommand();
+        StringBuilder stderr = commandExecutor.getStandardErrorFromCommand();
+
+        LOGGER.info("The numeric result of the command was: {}", result);
+        LOGGER.info("STDOUT: {}", stdout);
+        LOGGER.info("STDERR: {}", stderr);
+
+        //THEN
+        then(result).isGreaterThan(0);
 
     }
 }
