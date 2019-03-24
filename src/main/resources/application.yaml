@@ -12,3 +12,21 @@ config:
       password:
       build_tool: MAVEN
       main_branch: master
+    -
+      id: "spring-boot"
+      path: "repos/spring-boot"
+      address: "https://github.com/spring-projects/spring-boot.git"
+      authentication: false
+      user:
+      password:
+      build_tool: MAVEN
+      main_branch: master
+    -
+      id: "spring-framework"
+      path: "repos/spring-framework"
+      address: "https://github.com/spring-projects/spring-framework.git"
+      authentication: false
+      user:
+      password:
+      build_tool: MAVEN
+      main_branch: master

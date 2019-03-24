@@ -14,17 +14,18 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.jupiter.api.condition.OS.WINDOWS;
+import static org.junit.jupiter.api.condition.OS.LINUX;
+import static org.junit.jupiter.api.condition.OS.MAC;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@EnabledOnOs({ WINDOWS })
+@EnabledOnOs({ LINUX, MAC })
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class WindowsJavaShellProcessTest {
+public class OSXJavaShellProcess2Test {
 
     @MockBean
-    private Proccess shellProcess;
+    private Proccess2 shellProcess;
 
     @Test
     public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result() throws Exception {
@@ -34,14 +35,32 @@ public class WindowsJavaShellProcessTest {
                 new ProcessResult(getContentAsList("git/git-shortlog-sn-no-merges.txt")));
 
         //WHEN
-        ProcessResult result = shellProcess.execute(new Command.Builder()
+        ProcessResult result = shellProcess.execute(new Command2.Builder()
                                             .add("cd repos/ev3dev-lang-java")
                                             .add("git shortlog HEAD -sn --no-merges")
                                             .build());
 
         //THEN
-        then(result.getResults().size() > 0);
-        then(result.getResults().stream().findFirst().get().equals("   651  Juan Antonio Bren<CC><83>a Moral\n"));
+        then(result.getResults().size()).isGreaterThan(0);
+        then(result.getResults().stream().findFirst().get()).contains("   651\tJuan Antonio Breña Moral");
+    }
+
+    @Test
+    public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result2() throws Exception {
+
+        //GIVEN
+        when(shellProcess.execute(any())).thenReturn(
+                new ProcessResult(getContentAsList("git/git-shortlog-sn-no-merges.txt")));
+
+        //WHEN
+        ProcessResult result = shellProcess.execute(new Command2.Builder()
+                .add("cd repos/ev3dev-lang-java")
+                .add("git shortlog HEAD -sn --no-merges")
+                .build());
+
+        //THEN
+        then(result.getResults().size()).isGreaterThan(0);
+        then(result.getResults().stream().findFirst().get()).contains("   651\tJuan Antonio Breña Moral");
     }
 
     @Test
@@ -53,7 +72,7 @@ public class WindowsJavaShellProcessTest {
         //WHEN
         //THEN
         Assertions.assertThrows(RuntimeException.class, () -> {
-            shellProcess.execute(new Command.Builder()
+            shellProcess.execute(new Command2.Builder()
                     .add("cd repos/ev3dev-lang-java")
                     .add("git --bad-argument")
                     .build());

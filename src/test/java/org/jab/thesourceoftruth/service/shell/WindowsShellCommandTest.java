@@ -1,9 +1,12 @@
 package org.jab.thesourceoftruth.service.shell;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
+@EnabledOnOs({ WINDOWS })
 public class WindowsShellCommandTest {
 
     @Test

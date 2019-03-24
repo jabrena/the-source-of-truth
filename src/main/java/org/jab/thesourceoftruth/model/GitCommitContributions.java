@@ -1,12 +1,12 @@
 package org.jab.thesourceoftruth.model;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.jab.thesourceoftruth.service.shell.ProcessResult;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jab.thesourceoftruth.service.shell.ProcessResult;
 
 @Slf4j
 @AllArgsConstructor
@@ -21,6 +21,10 @@ public class GitCommitContributions {
     }
 
     public List<Contribution> adapt() {
+
+        if(result.getResults().get(0).equals("")) {
+            return new ArrayList<>();
+        }
 
         return result.getResults().stream().map(line -> {
             String[] parts = ltrim(line).split("\t");
