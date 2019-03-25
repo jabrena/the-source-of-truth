@@ -27,9 +27,10 @@ public class Command2 {
 
         private List<String> parts;
 
-        private final String COMMAND_WIN_PREFIX = "cmd /c";
+        private final String COMMAND_WIN_PREFIX = "cmd";
         private final String COMMAND_OSX_PREFIX = "/bin/sh";
         private final String COMMAND_OSX_PARAMETER = "-c";
+        private final String COMMAND_WIN_PARAMETER = "/c";
         private final String SEPARATOR = "\"";
 
         public Builder(){
@@ -45,6 +46,7 @@ public class Command2 {
             List<String> finalList =  new ArrayList<>();
             if(OS.contains("win")) {
                 finalList.add(COMMAND_WIN_PREFIX);
+                finalList.add(COMMAND_WIN_PARAMETER);
             } else {
                 finalList.add(COMMAND_OSX_PREFIX);
                 finalList.add(COMMAND_OSX_PARAMETER);
