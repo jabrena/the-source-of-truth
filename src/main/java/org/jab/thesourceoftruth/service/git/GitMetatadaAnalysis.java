@@ -73,11 +73,15 @@ public class GitMetatadaAnalysis {
 
         int year;
         int month;
-        for(year = commitRanges._1.getYear(); year < commitRanges._2.getYear(); year++) {
+        for(year = commitRanges._1.getYear(); year <= commitRanges._2.getYear(); year++) {
 
             LOGGER.info("Analyzing git metadata in year: {}", year);
 
-            for (month = 1; month < 12; month++) {
+            for (month = 1; month <= 12; month++) {
+
+                if((year == commitRanges._2.getYear()) && (month > commitRanges._2.getMonth().getValue())) {
+                    break;
+                }
 
                 int nextMonth = month+1;
 
@@ -87,7 +91,7 @@ public class GitMetatadaAnalysis {
                 }else {
                     gitDateFilter = "--since=\"1 " + GitMonths.from(month) +  ", " + year + "\" --before=\"1 " + GitMonths.from(nextMonth) + ", " + year + "\"";
                 }
-                //LOGGER.info("{}", gitDateFilter);
+                LOGGER.debug("{}", gitDateFilter);
 
                 ProcessResult result4 = shellProcess.execute(new Command2.Builder()
                         .add("cd " + repository.getPath())
