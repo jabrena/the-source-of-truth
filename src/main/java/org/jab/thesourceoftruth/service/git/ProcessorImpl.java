@@ -39,7 +39,7 @@ public class ProcessorImpl implements Processor {
         });
 
         //Starting point for the analysis
-        String[] headers = { "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
+        String[] headers = { "Parent", "Group", "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
 
         try {
 
@@ -49,6 +49,8 @@ public class ProcessorImpl implements Processor {
                 list.forEach(x -> {
                     try {
                         printer.printRecord(
+                                x.getParent(),
+                                x.getGroup(),
                                 x.getIdrepo(),
                                 x.getYear(),
                                 x.getMonth(),

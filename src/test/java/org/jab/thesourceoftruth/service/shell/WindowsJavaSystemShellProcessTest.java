@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import static org.mockito.Mockito.when;
 @EnabledOnOs({ WINDOWS })
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles("ev3dev")
 public class WindowsJavaSystemShellProcessTest {
 
     @Autowired
@@ -32,9 +34,6 @@ public class WindowsJavaSystemShellProcessTest {
     public void Given_a_Windows_command_When_we_execute_Then_we_receive_the_expected_result() throws Exception {
 
         //GIVEN
-        //when(shellProcess.execute(any())).thenReturn(
-        //        new ProcessResult(getContentAsList("git/git-shortlog-sn-no-merges.txt")));
-
         //WHEN
         ProcessResult result = shellProcess.execute(new Command2.Builder()
                                             .add("cd repos/ev3dev-lang-java")

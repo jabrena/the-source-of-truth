@@ -7,6 +7,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.BDDAssertions.then;
@@ -16,6 +17,7 @@ import static org.junit.jupiter.api.condition.OS.MAC;
 @EnabledOnOs({ LINUX, MAC })
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles("ev3dev")
 public class OSXJavaSystemShellProcess2Test {
 
     @Autowired
