@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -15,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
+@ActiveProfiles("ev3dev")
 public class ProcessorTest {
 
     @MockBean
@@ -33,7 +35,7 @@ public class ProcessorTest {
         processor.run();
 
         //THEN
-        verify(gitMetatadaAnalysis, times(3)).run(any());
+        verify(gitMetatadaAnalysis, times(1)).run(any());
     }
 
 }

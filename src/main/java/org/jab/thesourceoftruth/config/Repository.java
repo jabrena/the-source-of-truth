@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class Repository {
 
+    private String parent;
+    private String group;
     private String  id;
     private String path;
     private String address;

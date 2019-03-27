@@ -1,9 +1,11 @@
-logging.level.root: DEBUG
+logging.level.root: INFO
 
 config:
   git: "git"
   repositories:
     -
+      parent: "group1"
+      group: "robotics"
       id: "ev3dev-lang-java"
       path: "repos/ev3dev-lang-java"
       address: "https://github.com/ev3dev-lang-java/ev3dev-lang-java.git"

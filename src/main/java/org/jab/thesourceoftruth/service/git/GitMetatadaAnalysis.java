@@ -110,6 +110,8 @@ public class GitMetatadaAnalysis {
 
                     for (ContributionDetail detail: contributionDetail.adapt()) {
                         list.add(new GitDevEffort(
+                                repository.getParent(),
+                                repository.getGroup(),
                                 repository.getId(),
                                 year,
                                 month,

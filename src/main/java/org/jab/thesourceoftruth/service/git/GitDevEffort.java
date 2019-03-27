@@ -5,6 +5,8 @@ import lombok.Value;
 @Value
 public class GitDevEffort {
 
+    String parent;
+    String group;
     String idrepo;
     long year;
     long month;
