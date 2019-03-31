@@ -39,25 +39,27 @@ public class ProcessorImpl implements Processor {
         });
 
         //Starting point for the analysis
-        String[] headers = { "Parent", "Group", "Id", "Year", "Month", "Developer", "File", "Added", "Removed" };
+        String[] headers = { "Parent", "Group", "Id", "Year", "Month", "Developer", "File", "Added", "Removed", "IsTest", "IsJSON" };
 
         try {
 
             FileWriter out = new FileWriter("datalake.csv");
             try (CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT
                     .withHeader(headers).withDelimiter(','))) {
-                list.forEach(x -> {
+                list.forEach(row -> {
                     try {
                         printer.printRecord(
-                                x.getParent(),
-                                x.getGroup(),
-                                x.getIdrepo(),
-                                x.getYear(),
-                                x.getMonth(),
-                                x.getContributor(),
-                                x.getFile(),
-                                x.getAdded(),
-                                x.getRemoved());
+                                row.getParent(),
+                                row.getGroup(),
+                                row.getIdrepo(),
+                                row.getYear(),
+                                row.getMonth(),
+                                row.getContributor(),
+                                row.getFile(),
+                                row.getAdded(),
+                                row.getRemoved(),
+                                row.getIsTest(),
+                                row.getIsJson());
                     } catch (IOException ex) {
 
                     }

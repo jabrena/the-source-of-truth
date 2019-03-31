@@ -15,5 +15,7 @@ public class GitDevEffort {
     long added;
     long removed;
     String file;
+    int isTest;
+    int isJson;
 
 }
