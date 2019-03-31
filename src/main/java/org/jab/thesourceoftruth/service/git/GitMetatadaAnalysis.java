@@ -119,7 +119,9 @@ public class GitMetatadaAnalysis {
                                 contribution.getCommit(),
                                 detail.getAdded(),
                                 detail.getRemoved(),
-                                detail.getFile()
+                                detail.getFile(),
+                                detail.getFile().contains("Test") ? 1 : 0,
+                                detail.getFile().contains(".json") ? 1 : 0
                         ));
                     }
                 }
