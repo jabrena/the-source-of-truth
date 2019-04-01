@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.jab.thesourceoftruth.config.Repository;
+import org.jab.thesourceoftruth.service.maven.MavenAnalysis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class ProcessorImpl implements Processor {
 
     @Autowired
     private GitMetatadaAnalysis gitMetatadaAnalysis;
+
+    @Autowired
+    private MavenAnalysis mavenAnalysis;
 
     final List<Repository> repos;
 
@@ -33,11 +37,19 @@ public class ProcessorImpl implements Processor {
         repos.stream().forEach(repository -> {
 
             //TODO Move to plugin
-            LOGGER.info("1. Git Metadata Analysis");
+            LOGGER.info("1. Git Metadata analysis");
 
-            list.addAll(gitMetatadaAnalysis.run(repository));
+            //list.addAll(gitMetatadaAnalysis.run(repository));
+
+            LOGGER.info("2. Build System analysis");
+
+            mavenAnalysis.run(repository);
         });
 
+        createCSV(list);
+    }
+
+    private void createCSV(List<GitDevEffort> list) {
         //Starting point for the analysis
         String[] headers = { "Parent", "Group", "Id", "Year", "Month", "Developer", "File", "Added", "Removed", "IsTest", "IsJSON" };
 
@@ -67,7 +79,7 @@ public class ProcessorImpl implements Processor {
             }
 
         } catch (IOException e) {
-
+            LOGGER.error(e.getMessage(), e);
         }
     }
 
