@@ -39,7 +39,7 @@ public class ProcessorImpl implements Processor {
             //TODO Move to plugin
             LOGGER.info("1. Git Metadata analysis");
 
-            //list.addAll(gitMetatadaAnalysis.run(repository));
+            list.addAll(gitMetatadaAnalysis.run(repository));
 
             LOGGER.info("2. Build System analysis");
 
