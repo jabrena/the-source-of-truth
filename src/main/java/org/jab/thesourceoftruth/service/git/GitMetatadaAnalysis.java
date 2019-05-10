@@ -50,7 +50,7 @@ public class GitMetatadaAnalysis {
 
     private void checkout(Repository repository) {
 
-        LOGGER.info("Checkout repo");
+        LOGGER.info("Checkout repo " + repository.getId());
 
         File directory = new File("repos");
         if (! directory.exists()){
@@ -73,11 +73,15 @@ public class GitMetatadaAnalysis {
 
         int year;
         int month;
-        for(year = commitRanges._1.getYear(); year < commitRanges._2.getYear(); year++) {
+        for(year = commitRanges._1.getYear(); year <= commitRanges._2.getYear(); year++) {
 
             LOGGER.info("Analyzing git metadata in year: {}", year);
 
-            for (month = 1; month < 12; month++) {
+            for (month = 1; month <= 12; month++) {
+
+                if((year == commitRanges._2.getYear()) && (month > commitRanges._2.getMonth().getValue())) {
+                    break;
+                }
 
                 int nextMonth = month+1;
 
@@ -173,12 +177,16 @@ public class GitMetatadaAnalysis {
                 .add(configuration.getGit() + " checkout " + repository.getMain_branch())
                 .build()));
 
-        ProcessResult result = shellProcess.execute(new Command2.Builder()
-                .add("cd " + repository.getPath())
-                .add(configuration.getGit() + " pull")
-                .build());
+        try {
+            ProcessResult result = shellProcess.execute(new Command2.Builder()
+                    .add("cd " + repository.getPath())
+                    .add(configuration.getGit() + " pull")
+                    .build());
+            result.getResults().stream().forEach(LOGGER::debug);
+        } catch (Exception e) {
+            LOGGER.error(e.getLocalizedMessage());
+        }
 
-        result.getResults().stream().forEach(LOGGER::debug);
     }
 
 }
